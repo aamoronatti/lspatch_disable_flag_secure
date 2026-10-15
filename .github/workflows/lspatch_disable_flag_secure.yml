@@ -70,12 +70,17 @@ jobs:
           chmod +x apkeep
           mkdir -p apk_download
 
+          APKEEP_OPTIONS=()
+          if [ "${{ github.event.inputs.download_source }}" = "apk-pure" ]; then
+            APKEEP_OPTIONS=(-o acknowledge_dangers=true)
+          fi
+
           if [ -n "${{ github.event.inputs.app_id }}" ]; then
             SRC="${{ github.event.inputs.download_source }}"
             echo "Using app_id with source=$SRC"
 
             if [ -n "$SRC" ]; then
-              ./apkeep -a "${{ github.event.inputs.app_id }}" -d "$SRC" ./apk_download
+              ./apkeep -a "${{ github.event.inputs.app_id }}" -d "$SRC" "${APKEEP_OPTIONS[@]}" ./apk_download
             else
               ./apkeep -a "${{ github.event.inputs.app_id }}" ./apk_download
             fi
