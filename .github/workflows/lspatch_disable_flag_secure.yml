@@ -55,7 +55,7 @@ jobs:
 
           BASENAME="patched"
 
-          LSPATCH_URL=$(curl -s https://api.github.com/repos/JingMatrix/LSPatch/releases/latest | jq -r '.assets[] | select(.name=="lspatch.jar") | .browser_download_url')
+          LSPATCH_URL=$(curl -s https://api.github.com/repos/JingMatrix/LSPatch/releases/latest | jq -r '.assets[] | select(.name | test("^lspatch-.*-release[.]jar$")) | .browser_download_url')
           echo "LSPATCH_URL=$LSPATCH_URL"
           wget -O lspatch.jar "$LSPATCH_URL"
 
